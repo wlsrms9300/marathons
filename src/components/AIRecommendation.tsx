@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Brain, Sparkles, ChevronRight, X } from 'lucide-react';
+import { Brain, ChevronRight, X } from 'lucide-react';
 import type { Marathon } from './MarathonCard';
 
 interface AIRecommendationProps {
