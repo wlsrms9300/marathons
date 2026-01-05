@@ -94,9 +94,12 @@ export function AIRecommendation({ marathons, onClose, onSelectMarathon }: AIRec
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+      <div 
+        className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden" 
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 rounded-t-3xl relative">
+        <div className="flex-shrink-0 bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 rounded-t-3xl relative">
           <button 
             onClick={onClose}
             className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors"
@@ -128,7 +131,8 @@ export function AIRecommendation({ marathons, onClose, onSelectMarathon }: AIRec
           )}
         </div>
 
-        <div className="p-6">
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-6">
           {step < questions.length ? (
             // 질문 단계
             <div className="space-y-4 animate-slideIn">
@@ -218,6 +222,7 @@ export function AIRecommendation({ marathons, onClose, onSelectMarathon }: AIRec
               </button>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>
