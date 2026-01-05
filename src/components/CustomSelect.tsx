@@ -55,7 +55,7 @@ export function CustomSelect({
         className="flex items-center gap-1.5 bg-white/60 px-3 py-2 rounded-full shadow-sm hover:shadow-md transition-all hover:scale-105"
       >
         <Icon className={`w-4 h-4 ${iconColor} flex-shrink-0`} />
-        <span className="text-xs font-medium text-card-foreground">
+        <span className="text-xs font-medium text-card-foreground leading-5">
           {selectedOption?.label || placeholder}
         </span>
         <span
@@ -76,7 +76,7 @@ export function CustomSelect({
                 onChange(option.value);
                 setIsOpen(false);
               }}
-              className={`w-full text-left px-4 py-2.5 text-xs font-medium transition-all hover:bg-gradient-to-r ${
+              className={`w-full text-left px-4 py-2.5 text-xs font-medium transition-all hover:bg-gradient-to-r leading-5 ${
                 value === option.value
                   ? `bg-gradient-to-r from-primary/10 to-blue-100 text-primary ${iconColor.replace(
                       "text-",

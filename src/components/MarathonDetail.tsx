@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { X, Calendar, MapPin, Users, Coins, Clock, Mountain, Gift, Medal, Sun, Cloud, CloudRain, Snowflake, ChevronRight, MapPinned, TrendingUp } from 'lucide-react';
 import type { Marathon } from './MarathonCard';
 
@@ -24,6 +25,14 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
   const WeatherIcon = weatherIcons[marathon.weather.condition];
   const weatherMsg = weatherMessages[marathon.weather.condition];
 
+  // 팝업이 열릴 때 body 스크롤 막기
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const difficultyInfo = {
     easy: { 
       label: '🌱 초급자 추천', 
@@ -49,16 +58,16 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex-shrink-0 bg-gradient-to-r from-primary to-blue-600 text-white p-6 rounded-t-3xl">
+        <div className="flex-shrink-0 bg-gradient-to-r from-primary to-blue-600 text-white p-6 rounded-t-3xl relative">
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors"
+            className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors z-10"
           >
             <X className="w-6 h-6" />
           </button>
           
           <div className="flex items-start gap-3 mb-3">
-            <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm">
+            <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm leading-5 flex items-center">
               {marathon.type === 'international' ? '✈️ 해외' : '🇰🇷 국내'}
             </div>
             <div className={`px-3 py-1 rounded-full text-sm border ${difficultyInfo[marathon.difficulty].color}`}>
@@ -66,8 +75,8 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
             </div>
           </div>
           
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2">{marathon.name}</h2>
-          <p className="text-white/90 text-sm sm:text-base italic">{marathon.scenery}</p>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2 leading-7">{marathon.name}</h2>
+          <p className="text-white/90 text-sm sm:text-base italic leading-6">{marathon.scenery}</p>
         </div>
 
         <div className="flex-1 overflow-y-auto">
@@ -79,11 +88,11 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
                 <WeatherIcon className="w-5 h-5 text-blue-500" />
               </div>
               <div>
-                <p className="font-bold text-blue-900">예상 날씨: {marathon.weather.temperature}</p>
-                <p className="text-sm text-blue-700">{marathon.weather.description}</p>
+                <p className="font-bold text-blue-900 leading-6">예상 날씨: {marathon.weather.temperature}</p>
+                <p className="text-sm text-blue-700 leading-5">{marathon.weather.description}</p>
               </div>
             </div>
-            <p className="text-blue-800 text-sm leading-relaxed">
+            <p className="text-blue-800 text-sm leading-6">
               {weatherMsg.emoji} {weatherMsg.message}
             </p>
           </div>
@@ -92,9 +101,9 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
           <div className={`rounded-2xl p-4 border-2 ${difficultyInfo[marathon.difficulty].color}`}>
             <div className="flex items-center gap-2 mb-1">
               <TrendingUp className="w-5 h-5" />
-              <p className="font-bold">난이도 정보</p>
+              <p className="font-bold leading-6">난이도 정보</p>
             </div>
-            <p className="text-sm">{difficultyInfo[marathon.difficulty].tip}</p>
+            <p className="text-sm leading-5">{difficultyInfo[marathon.difficulty].tip}</p>
           </div>
 
           {/* 기본 정보 */}
@@ -102,48 +111,48 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
             <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-2xl">
               <Calendar className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
-                <p className="text-xs text-muted-foreground">대회 날짜</p>
-                <p className="font-medium">{marathon.date}</p>
+                <p className="text-xs text-muted-foreground leading-5">대회 날짜</p>
+                <p className="font-medium leading-6">{marathon.date}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-2xl">
               <Clock className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
-                <p className="text-xs text-muted-foreground">출발 시간</p>
-                <p className="font-medium">{marathon.details.startTime}</p>
+                <p className="text-xs text-muted-foreground leading-5">출발 시간</p>
+                <p className="font-medium leading-6">{marathon.details.startTime}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-2xl">
               <MapPin className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
-                <p className="text-xs text-muted-foreground">위치</p>
-                <p className="font-medium">{marathon.location}, {marathon.country}</p>
+                <p className="text-xs text-muted-foreground leading-5">위치</p>
+                <p className="font-medium leading-6">{marathon.location}, {marathon.country}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-2xl">
               <Users className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
-                <p className="text-xs text-muted-foreground">참가자</p>
-                <p className="font-medium">{marathon.participants}</p>
+                <p className="text-xs text-muted-foreground leading-5">참가자</p>
+                <p className="font-medium leading-6">{marathon.participants}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-2xl">
               <Coins className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
-                <p className="text-xs text-muted-foreground">참가비</p>
-                <p className="font-medium text-primary">{marathon.price}</p>
+                <p className="text-xs text-muted-foreground leading-5">참가비</p>
+                <p className="font-medium text-primary leading-6">{marathon.price}</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-2xl">
               <Calendar className="w-5 h-5 text-red-500 flex-shrink-0" />
               <div>
-                <p className="text-xs text-muted-foreground">접수 마감</p>
-                <p className="font-medium text-red-600">{marathon.details.deadline}</p>
+                <p className="text-xs text-muted-foreground leading-5">접수 마감</p>
+                <p className="font-medium text-red-600 leading-6">{marathon.details.deadline}</p>
               </div>
             </div>
           </div>
@@ -152,15 +161,15 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
           <div className="bg-blue-50 rounded-2xl p-5 border border-blue-200">
             <div className="flex items-center gap-2 mb-3">
               <MapPinned className="w-5 h-5 text-blue-600" />
-              <h3 className="font-bold text-blue-900">코스 소개</h3>
+              <h3 className="font-bold text-blue-900 leading-6">코스 소개</h3>
             </div>
-            <p className="text-blue-800 leading-relaxed mb-3">{marathon.details.courseDescription}</p>
+            <p className="text-blue-800 leading-6 mb-3">{marathon.details.courseDescription}</p>
             
             <div className="flex items-center gap-2 bg-white/50 p-3 rounded-xl">
               <Mountain className="w-5 h-5 text-blue-600" />
               <div>
-                <p className="text-xs text-blue-700">코스 고도</p>
-                <p className="font-medium text-blue-900">{marathon.details.elevation}</p>
+                <p className="text-xs text-blue-700 leading-5">코스 고도</p>
+                <p className="font-medium text-blue-900 leading-6">{marathon.details.elevation}</p>
               </div>
             </div>
           </div>
@@ -169,13 +178,13 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
           <div className="bg-purple-50 rounded-2xl p-5 border border-purple-200">
             <div className="flex items-center gap-2 mb-3">
               <Gift className="w-5 h-5 text-purple-600" />
-              <h3 className="font-bold text-purple-900">제공 항목</h3>
+              <h3 className="font-bold text-purple-900 leading-6">제공 항목</h3>
             </div>
             <div className="grid grid-cols-2 gap-2">
               {marathon.details.services.map((service, index) => (
                 <div key={index} className="flex items-center gap-2 bg-white p-2 rounded-xl">
                   <ChevronRight className="w-4 h-4 text-purple-500 flex-shrink-0" />
-                  <span className="text-sm text-purple-800">{service}</span>
+                  <span className="text-sm text-purple-800 leading-5">{service}</span>
                 </div>
               ))}
             </div>
@@ -185,14 +194,14 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
           <div className="bg-green-50 rounded-2xl p-4 border-2 border-green-200">
             <div className="flex items-center gap-2 mb-1">
               <MapPinned className="w-5 h-5 text-green-600" />
-              <p className="font-bold">주차 안내</p>
+              <p className="font-bold leading-6">주차 안내</p>
             </div>
-            <p className="text-sm text-green-800">{marathon.details.parking}</p>
+            <p className="text-sm text-green-800 leading-5">{marathon.details.parking}</p>
           </div>
 
           {/* 종목 */}
           <div>
-            <h3 className="font-bold mb-3 flex items-center gap-2">
+            <h3 className="font-bold mb-3 flex items-center gap-2 leading-6">
               <Medal className="w-5 h-5 text-yellow-600" />
               <span>참가 종목</span>
             </h3>

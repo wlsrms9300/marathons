@@ -467,7 +467,7 @@ export default function App() {
     {
       id: "domestic" as const,
       label: "국내",
-      icon: () => <span className="text-base">🇰🇷</span>,
+      icon: () => <span className="text-base leading-5">🇰🇷</span>,
     },
     { id: "international" as const, label: "해외", icon: Globe },
   ];
@@ -507,8 +507,8 @@ export default function App() {
               <Footprints className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
             </div>
           </div>
-          <h1 className="text-primary mb-2">마라톤 일정</h1>
-          <p className="text-muted-foreground text-sm sm:text-base flex items-center justify-center gap-2">
+          <h1 className="text-primary mb-2 leading-7">마라톤 일정</h1>
+          <p className="text-muted-foreground text-sm sm:text-base flex items-center justify-center gap-2 leading-6">
             <Sparkles className="w-4 h-4" />
             <span>전 세계 마라톤 대회를 찾아보세요</span>
             <Sparkles className="w-4 h-4" />
@@ -522,7 +522,7 @@ export default function App() {
             className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-medium shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
             <Brain className="w-5 h-5" />
-            <span>AI가 추천하는 나만의 마라톤</span>
+            <span className="leading-6">AI가 추천하는 나만의 마라톤</span>
             <Sparkles className="w-4 h-4" />
           </button>
         </div>
@@ -549,7 +549,7 @@ export default function App() {
             <div className="flex items-center gap-2 flex-wrap">
               <div className="flex items-center gap-1.5 text-xs text-primary/70 min-w-[50px] font-medium">
                 <Globe className="w-4 h-4" />
-                <span>지역</span>
+                <span className="leading-5">지역</span>
               </div>
               <div className="flex gap-2 flex-wrap flex-1">
                 {filterButtons.map((button) => {
@@ -569,7 +569,7 @@ export default function App() {
                       ) : typeof Icon === "function" ? (
                         <Icon className="w-3.5 h-3.5" />
                       ) : null}
-                      <span>{button.label}</span>
+                      <span className="leading-5">{button.label}</span>
                     </button>
                   );
                 })}
@@ -623,7 +623,7 @@ export default function App() {
         {/* Results Count */}
         <div className="mb-4 sm:mb-6 text-center">
           <div className="inline-block bg-white px-6 py-2 rounded-full shadow-md border border-border">
-            <p className="text-muted-foreground text-sm sm:text-base">
+            <p className="text-muted-foreground text-sm sm:text-base leading-6">
               총{" "}
               <span className="text-primary font-bold">
                 {filteredMarathons.length}
@@ -649,8 +649,10 @@ export default function App() {
             <div className="bg-white p-8 rounded-3xl inline-block mb-4 shadow-xl border-2 border-border">
               <Search className="w-12 h-12 sm:w-16 sm:h-16 text-muted-foreground mx-auto" />
             </div>
-            <h3 className="text-muted-foreground mb-2">검색 결과가 없습니다</h3>
-            <p className="text-muted-foreground text-sm sm:text-base">
+            <h3 className="text-muted-foreground mb-2 leading-6">
+              검색 결과가 없습니다
+            </h3>
+            <p className="text-muted-foreground text-sm sm:text-base leading-6">
               다른 조건으로 시도해보세요 🔍
             </p>
           </div>
@@ -658,7 +660,7 @@ export default function App() {
 
         {/* Footer */}
         <div className="mt-12 text-center pb-8">
-          <p className="text-muted-foreground text-xs sm:text-sm">
+          <p className="text-muted-foreground text-xs sm:text-sm leading-5">
             🏃‍♀️ 완주를 향해 달려가세요! 🏃‍♂️
           </p>
         </div>
