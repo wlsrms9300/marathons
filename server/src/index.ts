@@ -6,7 +6,7 @@ import marathonsRouter from "./routes/marathons.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // 미들웨어
 app.use(cors());

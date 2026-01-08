@@ -108,90 +108,105 @@ export default function App() {
           </button>
         </div>
 
-        {/* Search Bar */}
-        <div className="mb-6 sm:mb-8">
-          <div className="relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground group-focus-within:text-primary transition-colors z-10" />
-            <input
-              type="text"
-              placeholder="마라톤 이름, 지역, 국가로 검색..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl border-2 border-border bg-white text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm sm:text-base leading-6"
-            />
-          </div>
-        </div>
+        {/* 통합 검색 & 필터 */}
+        <div className="bg-gradient-to-br from-white to-blue-50 rounded-3xl p-4 sm:p-6 shadow-lg border-2 border-primary/10 mb-6">
+          <div className="space-y-4">
+            {/* 검색창 */}
+            <div className="relative group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground group-focus-within:text-primary transition-colors z-10" />
+              <input
+                type="text"
+                placeholder="어디로 달려볼까요? 🏃‍♂️"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-11 sm:pl-12 pr-4 py-3 sm:py-3.5 bg-white/80 border-2 border-primary/20 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm hover:shadow-md hover:bg-white"
+              />
+            </div>
 
-        {/* Filters */}
-        <div className="mb-6 sm:mb-8 space-y-4">
-          {/* Type Filter */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-            {filterButtons.map((button) => {
-              const Icon = button.icon;
-              return (
-                <button
-                  key={button.id}
-                  onClick={() => setSelectedFilter(button.id)}
-                  className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 flex items-center gap-2 ${
-                    selectedFilter === button.id
-                      ? "bg-primary text-white shadow-lg scale-105"
-                      : "bg-white text-card-foreground border-2 border-border hover:border-primary/40"
-                  }`}
-                >
-                  {typeof Icon === "function" && Icon.name === undefined ? (
-                    <Icon />
-                  ) : typeof Icon === "function" ? (
-                    <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                  ) : null}
-                  <span className="leading-6">{button.label}</span>
-                </button>
-              );
-            })}
-          </div>
+            {/* 구분선 */}
+            <div className="border-t border-primary/10"></div>
 
-          {/* Distance, Difficulty, Month Filters */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <CustomSelect
-              value={distanceFilter}
-              onChange={setDistanceFilter}
-              options={distanceButtons.map((button) => ({
-                value: button.id,
-                label: button.label,
-              }))}
-              icon={Footprints}
-              iconColor="text-primary"
-              placeholder="거리 선택"
-            />
-            <CustomSelect
-              value={difficultyFilter}
-              onChange={setDifficultyFilter}
-              options={difficultyButtons.map((button) => ({
-                value: button.id,
-                label: button.label,
-              }))}
-              icon={TrendingUp}
-              iconColor="text-yellow-500"
-              placeholder="난이도 선택"
-            />
-            <CustomSelect
-              value={monthFilter}
-              onChange={setMonthFilter}
-              options={monthButtons.map((button) => ({
-                value: button.id,
-                label: button.label,
-              }))}
-              icon={Calendar}
-              iconColor="text-blue-500"
-              placeholder="월 선택"
-            />
+            {/* 지역 필터 */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center gap-1.5 text-xs text-primary/70 min-w-[50px] font-medium">
+                <Globe className="w-4 h-4" />
+                <span>지역</span>
+              </div>
+              <div className="flex gap-2 flex-wrap flex-1">
+                {filterButtons.map((button) => {
+                  const Icon = button.icon;
+                  return (
+                    <button
+                      key={button.id}
+                      onClick={() => setSelectedFilter(button.id)}
+                      className={`flex items-center gap-1.5 px-4 py-2 rounded-full transition-all duration-300 text-xs font-medium shadow-sm ${
+                        selectedFilter === button.id
+                          ? "bg-gradient-to-r from-primary to-blue-600 text-white shadow-md scale-105"
+                          : "bg-white/80 text-card-foreground hover:bg-white hover:shadow-md hover:scale-105"
+                      }`}
+                    >
+                      {typeof Icon === "function" && Icon.name === undefined ? (
+                        <Icon />
+                      ) : typeof Icon === "function" ? (
+                        <Icon className="w-3.5 h-3.5" />
+                      ) : null}
+                      <span>{button.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 코스, 난이도, 월 필터 */}
+            <div className="flex items-start gap-2 sm:gap-3 flex-wrap text-xs">
+              {/* 코스 */}
+              <CustomSelect
+                value={distanceFilter}
+                onChange={setDistanceFilter}
+                options={distanceButtons.map((button) => ({
+                  value: button.id,
+                  label: button.label,
+                }))}
+                icon={Footprints}
+                iconColor="text-primary"
+                placeholder="전체 코스"
+              />
+
+              {/* 난이도 */}
+              <CustomSelect
+                value={difficultyFilter}
+                onChange={setDifficultyFilter}
+                options={difficultyButtons.map((button) => ({
+                  value: button.id,
+                  label: button.label,
+                }))}
+                icon={TrendingUp}
+                iconColor="text-yellow-500"
+                placeholder="전체 난이도"
+              />
+
+              {/* 월 */}
+              <CustomSelect
+                value={monthFilter}
+                onChange={setMonthFilter}
+                options={monthButtons.map((button) => ({
+                  value: button.id,
+                  label: button.label,
+                }))}
+                icon={Calendar}
+                iconColor="text-blue-500"
+                placeholder="전체 월"
+              />
+            </div>
           </div>
         </div>
 
         {/* Results Count */}
-        <div className="mb-4 sm:mb-6">
-          <div className="bg-white p-4 rounded-2xl shadow-md border-2 border-border">
-            <p className="text-card-foreground text-sm sm:text-base leading-6">
-              <span className="font-bold text-primary">
+        <div className="mb-4 sm:mb-6 text-center">
+          <div className="inline-block bg-white px-6 py-2 rounded-full shadow-md border border-border">
+            <p className="text-muted-foreground text-sm sm:text-base">
+              총{" "}
+              <span className="text-primary font-bold">
                 {filteredMarathons.length}
               </span>
               개의 대회가 있습니다

@@ -30,7 +30,7 @@ export async function getMarathons(params?: {
   }
 
   const queryString = queryParams.toString();
-  const endpoint = `/marathons${queryString ? `?${queryString}` : ''}`;
+  const endpoint = `/api/marathons${queryString ? `?${queryString}` : ''}`;
   
   return apiGet<Marathon[]>(endpoint);
 }
@@ -39,14 +39,14 @@ export async function getMarathons(params?: {
  * 마라톤 상세 조회
  */
 export async function getMarathonById(id: number): Promise<Marathon> {
-  return apiGet<Marathon>(`/marathons/${id}`);
+  return apiGet<Marathon>(`/api/marathons/${id}`);
 }
 
 /**
  * 마라톤 생성 (관리자용)
  */
 export async function createMarathon(data: Partial<Marathon>): Promise<Marathon> {
-  return apiPost<Marathon>('/marathons', data);
+  return apiPost<Marathon>('/api/marathons', data);
 }
 
 /**
@@ -56,14 +56,14 @@ export async function updateMarathon(
   id: number,
   data: Partial<Marathon>
 ): Promise<Marathon> {
-  return apiPut<Marathon>(`/marathons/${id}`, data);
+  return apiPut<Marathon>(`/api/marathons/${id}`, data);
 }
 
 /**
  * 마라톤 삭제 (관리자용)
  */
 export async function deleteMarathon(id: number): Promise<void> {
-  return apiDelete<void>(`/marathons/${id}`);
+  return apiDelete<void>(`/api/marathons/${id}`);
 }
 
 /**
@@ -74,6 +74,6 @@ export async function getAIRecommendations(params: {
   location: string;
   weather: string;
 }): Promise<Marathon[]> {
-  return apiPost<Marathon[]>('/marathons/ai-recommend', params);
+  return apiPost<Marathon[]>('/api/marathons/ai-recommend', params);
 }
 

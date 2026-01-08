@@ -4,12 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "dev:server": "cd server && npm run dev",
-    "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
+    "dev": "vite --port 8081",
+    "dev:server": "cd server && yarn dev",
+    "dev:all": "concurrently \"yarn dev\" \"yarn dev:server\"",
     "build": "tsc -b && vite build",
-    "build:server": "cd server && npm run build",
-    "build:all": "npm run build:server && npm run build",
+    "build:server": "cd server && yarn build",
+    "build:all": "yarn build:server && yarn build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

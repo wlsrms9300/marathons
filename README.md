@@ -17,11 +17,11 @@ maratons/
 
 ```bash
 # 루트 의존성 설치
-npm install
+yarn install
 
 # 서버 의존성 설치
 cd server
-npm install
+yarn install
 cd ..
 ```
 
@@ -29,44 +29,51 @@ cd ..
 
 **프론트엔드와 백엔드를 동시에 실행 (권장):**
 ```bash
-npm run dev:all
+yarn dev:all
 ```
 
 **개별 실행:**
 ```bash
-# 프론트엔드만 실행 (포트 5173)
-npm run dev
+# 프론트엔드만 실행 (포트 8081)
+yarn dev
 
-# 백엔드만 실행 (포트 3000)
-npm run dev:server
+# 백엔드만 실행 (포트 8080)
+yarn dev:server
 ```
 
 ### 3. 빌드
 
 ```bash
 # 전체 빌드 (서버 + 프론트)
-npm run build:all
+yarn build:all
 
 # 개별 빌드
-npm run build          # 프론트엔드
-npm run build:server   # 백엔드
+yarn build          # 프론트엔드
+yarn build:server   # 백엔드
 ```
 
 ## 개발 환경 설정
 
 ### 백엔드 환경 변수
 
-`server/.env` 파일을 생성하세요:
+`server/.env` 파일을 생성하세요 (선택사항):
 
 ```env
-PORT=3000
+PORT=8080
 NODE_ENV=development
 ```
 
+기본값으로 서버는 8080 포트에서 실행됩니다.
+
 ### API 프록시
 
-개발 모드에서 Vite가 `/api/*` 요청을 자동으로 `http://localhost:3000`으로 프록시합니다.
+개발 모드에서 Vite가 `/api/*` 요청을 자동으로 `http://localhost:8080`으로 프록시합니다.
 프론트엔드 코드에서는 `/api/marathons`처럼 상대 경로를 사용하면 됩니다.
+
+### 포트 정보
+
+- **프론트엔드**: `http://localhost:8081`
+- **백엔드**: `http://localhost:8080`
 
 ## 기술 스택
 

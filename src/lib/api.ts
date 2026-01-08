@@ -3,7 +3,8 @@
  * 백엔드 API 엔드포인트가 결정되면 BASE_URL을 업데이트하세요
  */
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+// 개발 모드에서는 Vite 프록시 사용, 프로덕션에서는 환경 변수 또는 기본값 사용
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? '' : 'http://localhost:8080');
 
 export interface ApiError {
   message: string;
