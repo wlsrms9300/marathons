@@ -11,7 +11,9 @@
     "build:server": "cd server && yarn build",
     "build:all": "yarn build:server && yarn build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "mcp:test": "npx -y @supabase/mcp-server-supabase --help",
+    "mcp:help": "npx -y @supabase/mcp-server-supabase --help"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
