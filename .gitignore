@@ -23,5 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
+.env
+
 # Cursor settings (MCP 설정은 버전 관리에 포함, 민감한 정보는 환경 변수로 관리)
 # .cursor/mcp.json은 포함하되, 실제 키 값은 환경 변수나 .env 파일 사용 권장
