@@ -1,7 +1,7 @@
 {
   "version": 2,
   "buildCommand": "yarn build",
-  "installCommand": "yarn install",
+  "installCommand": "yarn install --production=false",
   "framework": null,
   "rewrites": [
     {
@@ -13,4 +13,3 @@
     "NODE_ENV": "production"
   }
 }
-
