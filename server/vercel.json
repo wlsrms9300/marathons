@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "buildCommand": "yarn build",
+  "installCommand": "yarn install",
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/index"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
+

@@ -69,13 +69,20 @@ app.use(
   }
 );
 
-app.listen(PORT, async () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
-  
-  // Supabase 연결 테스트
-  if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    await testSupabaseConnection();
-  } else {
-    console.log('⚠️  Supabase 환경 변수가 설정되지 않았습니다. 테스트 데이터를 사용합니다.');
-  }
-});
+// Vercel serverless function에서는 listen을 호출하지 않음
+// 로컬 개발 환경에서만 서버 실행
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, async () => {
+    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+    
+    // Supabase 연결 테스트
+    if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      await testSupabaseConnection();
+    } else {
+      console.log('⚠️  Supabase 환경 변수가 설정되지 않았습니다. 테스트 데이터를 사용합니다.');
+    }
+  });
+}
+
+// Vercel serverless function용 export
+export default app;
