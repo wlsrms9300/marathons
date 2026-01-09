@@ -1,5 +1,6 @@
 import { apiGet, apiPost, apiPut, apiDelete } from '../lib/api';
 import type { Marathon } from '../components/MarathonCard';
+import { normalizeMarathons, normalizeMarathon } from '../lib/normalizeMarathon';
 
 /**
  * 마라톤 목록 조회
@@ -32,14 +33,16 @@ export async function getMarathons(params?: {
   const queryString = queryParams.toString();
   const endpoint = `/api/marathons${queryString ? `?${queryString}` : ''}`;
   
-  return apiGet<Marathon[]>(endpoint);
+  const data = await apiGet<Marathon[]>(endpoint);
+  return normalizeMarathons(data);
 }
 
 /**
  * 마라톤 상세 조회
  */
 export async function getMarathonById(id: number): Promise<Marathon> {
-  return apiGet<Marathon>(`/api/marathons/${id}`);
+  const data = await apiGet<Marathon>(`/api/marathons/${id}`);
+  return normalizeMarathon(data);
 }
 
 /**
@@ -74,6 +77,7 @@ export async function getAIRecommendations(params: {
   location: string;
   weather: string;
 }): Promise<Marathon[]> {
-  return apiPost<Marathon[]>('/api/marathons/ai-recommend', params);
+  const data = await apiPost<Marathon[]>('/api/marathons/ai-recommend', params);
+  return normalizeMarathons(data);
 }
 

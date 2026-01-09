@@ -8,6 +8,35 @@ interface MarathonDetailProps {
 }
 
 export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
+  // null/undefined 데이터에 대한 기본값 설정
+  const safeMarathon = {
+    id: marathon.id ?? 0,
+    name: marathon.name ?? '이름 없음',
+    date: marathon.date ?? '날짜 정보 없음',
+    location: marathon.location ?? '위치 정보 없음',
+    country: marathon.country ?? '국가 정보 없음',
+    type: marathon.type ?? 'domestic',
+    distances: marathon.distances ?? [],
+    participants: marathon.participants ?? '정보 없음',
+    difficulty: marathon.difficulty ?? 'medium',
+    weather: marathon.weather ?? {
+      condition: 'sunny' as const,
+      temperature: '정보 없음',
+      description: '날씨 정보 없음'
+    },
+    scenery: marathon.scenery ?? '풍경 정보 없음',
+    price: marathon.price ?? '정보 없음',
+    details: marathon.details ?? {
+      courseDescription: '코스 설명 없음',
+      elevation: '정보 없음',
+      services: [],
+      deadline: '정보 없음',
+      website: '#',
+      startTime: '정보 없음',
+      parking: '정보 없음'
+    }
+  };
+
   const weatherMessages = {
     sunny: { emoji: '☀️', message: '완벽한 러닝 날씨예요! 맑은 하늘 아래에서 기분 좋게 달려보세요!' },
     cloudy: { emoji: '☁️', message: '햇볕 걱정 없이 시원하게 달릴 수 있어요! 구름이 여러분의 친구가 되어줄 거예요!' },
@@ -22,8 +51,9 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
     snowy: Snowflake
   };
 
-  const WeatherIcon = weatherIcons[marathon.weather.condition];
-  const weatherMsg = weatherMessages[marathon.weather.condition];
+  const weatherCondition = safeMarathon.weather.condition ?? 'sunny';
+  const WeatherIcon = weatherIcons[weatherCondition] ?? Sun;
+  const weatherMsg = weatherMessages[weatherCondition] ?? weatherMessages.sunny;
 
   // 팝업이 열릴 때 body 스크롤 막기
   useEffect(() => {
@@ -68,15 +98,15 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
           
           <div className="flex items-start gap-3 mb-3">
             <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm leading-5 flex items-center">
-              {marathon.type === 'international' ? '✈️ 해외' : '🇰🇷 국내'}
+              {safeMarathon.type === 'international' ? '✈️ 해외' : '🇰🇷 국내'}
             </div>
-            <div className={`px-3 py-1 rounded-full text-sm border ${difficultyInfo[marathon.difficulty].color}`}>
-              {difficultyInfo[marathon.difficulty].label}
+            <div className={`px-3 py-1 rounded-full text-sm border ${difficultyInfo[safeMarathon.difficulty].color}`}>
+              {difficultyInfo[safeMarathon.difficulty].label}
             </div>
           </div>
           
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2 leading-7">{marathon.name}</h2>
-          <p className="text-white/90 text-sm sm:text-base italic leading-6">{marathon.scenery}</p>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2 leading-7">{safeMarathon.name}</h2>
+          <p className="text-white/90 text-sm sm:text-base italic leading-6">{safeMarathon.scenery}</p>
         </div>
 
         <div className="flex-1 overflow-y-auto">
@@ -88,8 +118,8 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
                 <WeatherIcon className="w-5 h-5 text-blue-500" />
               </div>
               <div>
-                <p className="font-bold text-blue-900 leading-6">예상 날씨: {marathon.weather.temperature}</p>
-                <p className="text-sm text-blue-700 leading-5">{marathon.weather.description}</p>
+                <p className="font-bold text-blue-900 leading-6">예상 날씨: {safeMarathon.weather.temperature}</p>
+                <p className="text-sm text-blue-700 leading-5">{safeMarathon.weather.description}</p>
               </div>
             </div>
             <p className="text-blue-800 text-sm leading-6">
@@ -98,12 +128,12 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
           </div>
 
           {/* 난이도 팁 */}
-          <div className={`rounded-2xl p-4 border-2 ${difficultyInfo[marathon.difficulty].color}`}>
+          <div className={`rounded-2xl p-4 border-2 ${difficultyInfo[safeMarathon.difficulty].color}`}>
             <div className="flex items-center gap-2 mb-1">
               <TrendingUp className="w-5 h-5" />
               <p className="font-bold leading-6">난이도 정보</p>
             </div>
-            <p className="text-sm leading-5">{difficultyInfo[marathon.difficulty].tip}</p>
+            <p className="text-sm leading-5">{difficultyInfo[safeMarathon.difficulty].tip}</p>
           </div>
 
           {/* 기본 정보 */}
@@ -112,7 +142,7 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
               <Calendar className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
                 <p className="text-xs text-muted-foreground leading-5">대회 날짜</p>
-                <p className="font-medium leading-6">{marathon.date}</p>
+                <p className="font-medium leading-6">{safeMarathon.date}</p>
               </div>
             </div>
 
@@ -120,7 +150,7 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
               <Clock className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
                 <p className="text-xs text-muted-foreground leading-5">출발 시간</p>
-                <p className="font-medium leading-6">{marathon.details.startTime}</p>
+                <p className="font-medium leading-6">{safeMarathon.details.startTime}</p>
               </div>
             </div>
 
@@ -128,7 +158,7 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
               <MapPin className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
                 <p className="text-xs text-muted-foreground leading-5">위치</p>
-                <p className="font-medium leading-6">{marathon.location}, {marathon.country}</p>
+                <p className="font-medium leading-6">{safeMarathon.location}, {safeMarathon.country}</p>
               </div>
             </div>
 
@@ -136,7 +166,7 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
               <Users className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
                 <p className="text-xs text-muted-foreground leading-5">참가자</p>
-                <p className="font-medium leading-6">{marathon.participants}</p>
+                <p className="font-medium leading-6">{safeMarathon.participants}</p>
               </div>
             </div>
 
@@ -144,7 +174,7 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
               <Coins className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
                 <p className="text-xs text-muted-foreground leading-5">참가비</p>
-                <p className="font-medium text-primary leading-6">{marathon.price}</p>
+                <p className="font-medium text-primary leading-6">{safeMarathon.price}</p>
               </div>
             </div>
 
@@ -152,7 +182,7 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
               <Calendar className="w-5 h-5 text-red-500 flex-shrink-0" />
               <div>
                 <p className="text-xs text-muted-foreground leading-5">접수 마감</p>
-                <p className="font-medium text-red-600 leading-6">{marathon.details.deadline}</p>
+                <p className="font-medium text-red-600 leading-6">{safeMarathon.details.deadline}</p>
               </div>
             </div>
           </div>
@@ -163,13 +193,13 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
               <MapPinned className="w-5 h-5 text-blue-600" />
               <h3 className="font-bold text-blue-900 leading-6">코스 소개</h3>
             </div>
-            <p className="text-blue-800 leading-6 mb-3">{marathon.details.courseDescription}</p>
+            <p className="text-blue-800 leading-6 mb-3">{safeMarathon.details.courseDescription}</p>
             
             <div className="flex items-center gap-2 bg-white/50 p-3 rounded-xl">
               <Mountain className="w-5 h-5 text-blue-600" />
               <div>
                 <p className="text-xs text-blue-700 leading-5">코스 고도</p>
-                <p className="font-medium text-blue-900 leading-6">{marathon.details.elevation}</p>
+                <p className="font-medium text-blue-900 leading-6">{safeMarathon.details.elevation}</p>
               </div>
             </div>
           </div>
@@ -181,12 +211,16 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
               <h3 className="font-bold text-purple-900 leading-6">제공 항목</h3>
             </div>
             <div className="grid grid-cols-2 gap-2">
-              {marathon.details.services.map((service, index) => (
-                <div key={index} className="flex items-center gap-2 bg-white p-2 rounded-xl">
-                  <ChevronRight className="w-4 h-4 text-purple-500 flex-shrink-0" />
-                  <span className="text-sm text-purple-800 leading-5">{service}</span>
-                </div>
-              ))}
+              {safeMarathon.details.services && safeMarathon.details.services.length > 0 ? (
+                safeMarathon.details.services.map((service, index) => (
+                  <div key={index} className="flex items-center gap-2 bg-white p-2 rounded-xl">
+                    <ChevronRight className="w-4 h-4 text-purple-500 flex-shrink-0" />
+                    <span className="text-sm text-purple-800 leading-5">{service}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-2 text-sm text-purple-700">제공 항목 정보 없음</div>
+              )}
             </div>
           </div>
 
@@ -196,7 +230,7 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
               <MapPinned className="w-5 h-5 text-green-600" />
               <p className="font-bold leading-6">주차 안내</p>
             </div>
-            <p className="text-sm text-green-800 leading-5">{marathon.details.parking}</p>
+            <p className="text-sm text-green-800 leading-5">{safeMarathon.details.parking}</p>
           </div>
 
           {/* 종목 */}
@@ -206,11 +240,15 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
               <span>참가 종목</span>
             </h3>
             <div className="flex gap-2 flex-wrap">
-              {marathon.distances.map((distance, index) => (
-                <div key={index} className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full font-medium text-sm shadow-md">
-                  {distance}
-                </div>
-              ))}
+              {safeMarathon.distances && safeMarathon.distances.length > 0 ? (
+                safeMarathon.distances.map((distance, index) => (
+                  <div key={index} className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full font-medium text-sm shadow-md">
+                    {distance}
+                  </div>
+                ))
+              ) : (
+                <span className="text-sm text-muted-foreground">종목 정보 없음</span>
+              )}
             </div>
           </div>
 
@@ -221,7 +259,7 @@ export function MarathonDetail({ marathon, onClose }: MarathonDetailProps) {
           </button>
 
           <p className="text-center text-xs text-muted-foreground">
-            공식 웹사이트: <a href={marathon.details.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{marathon.details.website}</a>
+            공식 웹사이트: <a href={safeMarathon.details.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{safeMarathon.details.website}</a>
           </p>
           </div>
         </div>
